@@ -11,8 +11,8 @@ const nextConfig = {
     localeDetection: false,
   },
   images: {
+    unoptimized: true, // 關閉圖片優化，解決顯示問題
     domains: [], // 暫時保持空，等有Railway域名後再添加
-    unoptimized: false, // 啟用圖片優化
   },
   // 添加環境變量配置
   env: {
