@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import axios, { InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
@@ -10,7 +10,7 @@ const api = axios.create({
 
 // 添加請求攔截器處理認證token
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     // 在客戶端環境中獲取token
     if (typeof window !== 'undefined') {
       const token = localStorage.getItem('token') || sessionStorage.getItem('token');
