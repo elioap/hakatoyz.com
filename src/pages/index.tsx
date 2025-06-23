@@ -146,8 +146,19 @@ const HomePage: React.FC = () => {
                 </Link>
               </div>
             </div>
-            <div className="hero-brands">
+            <div className="hero-brands desktop-only">
               <BrandsIconCloud />
+            </div>
+            
+            {/* 手機版品牌展示 */}
+            <div className="mobile-brands mobile-only">
+              <div className="mobile-brands-grid">
+                {['Supreme', 'Nike', 'KAWS', 'Off-White', 'Jordan', 'Apple'].map((brand, index) => (
+                  <div key={index} className="mobile-brand-item">
+                    <span>{brand}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAuth } from './AuthContext';
 import { useCart } from '@/contexts/CartContext';
+import SearchBar from './SearchBar';
 
 interface LayoutProps {
   children: ReactNode;
@@ -169,31 +170,14 @@ const Layout: React.FC<LayoutProps> = ({
           </div>
           
           <div className="nav-actions">
-            <div className={`search-container ${searchOpen ? 'open' : ''}`}>
-              <input
-                type="text"
-                className="search-input"
-                placeholder={t.searchPlaceholder}
-              />
-              <button className="search-icon-btn" aria-label={t.search}>
-                <i className="fas fa-search search-icon" />
-              </button>
-              <button 
-                className="search-close-btn" 
-                aria-label={t.closeSearch}
-                onClick={() => setSearchOpen(false)}
-              >
-                <i className="fas fa-times" />
-              </button>
-            </div>
-            
-            <button 
-              className="icon-search" 
-              aria-label={t.search}
-              onClick={() => setSearchOpen(true)}
-            >
-              <i className="fas fa-search" />
-            </button>
+            <SearchBar 
+              placeholder={t.searchPlaceholder}
+              onSearch={(query) => {
+                console.log('Search query:', query);
+                // TODO: 實現搜索功能
+                router.push(`/products?search=${encodeURIComponent(query)}`);
+              }}
+            />
             
             {isAuthenticated ? (
               <>
