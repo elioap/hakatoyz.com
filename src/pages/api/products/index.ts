@@ -63,8 +63,52 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     }
+  } else if (req.method === 'POST') {
+    try {
+      const newProductData = req.body;
+      
+      // 驗證必需字段
+      if (!newProductData.name?.zh || !newProductData.name?.en || 
+          !newProductData.price || !newProductData.category?.zh || 
+          !newProductData.category?.en) {
+        return res.status(400).json({
+          success: false,
+          message: 'Missing required fields'
+        });
+      }
+
+      // 生成新ID
+      const newId = Math.max(...products.map(p => p.id), 0) + 1;
+      
+      // 創建新產品
+      const newProduct: Product = {
+        id: newId,
+        ...newProductData,
+        image: newProductData.image || '/images/placeholder.jpg',
+        images: newProductData.images || ['/images/placeholder.jpg'],
+        specs: newProductData.specs || [],
+        features: newProductData.features || [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      // 在實際應用中，這裡應該保存到數據庫
+      // 現在我們只返回成功響應，實際的產品會通過localStorage在前端管理
+      
+      res.status(201).json({
+        success: true,
+        data: newProduct,
+        message: 'Product created successfully'
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Failed to create product',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
   } else {
-    res.setHeader('Allow', ['GET']);
+    res.setHeader('Allow', ['GET', 'POST']);
     res.status(405).json({
       success: false,
       message: `Method ${req.method} Not Allowed`

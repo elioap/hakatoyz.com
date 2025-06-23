@@ -162,7 +162,7 @@ body.zh-mode .lang-switch {
 }
 
 /* 調整右側工具圖標 */
-.icon-search, .user-icon, .login-icon, .cart-icon {
+.icon-search, .user-icon, .admin-icon, .login-icon, .cart-icon {
   font-size: 1.2rem;  /* 增加圖標大小 */
   color: var(--text-light);
   transition: all 0.3s ease;
@@ -737,7 +737,7 @@ body.zh-mode .mobile-nav-links a:not(:last-child) {
   width: 220px;
 }
 
-.icon-search:hover, .user-icon:hover, .login-icon:hover, .cart-icon:hover {
+.icon-search:hover, .user-icon:hover, .admin-icon:hover, .login-icon:hover, .cart-icon:hover {
   color: var(--primary);
   background-color: rgba(255, 61, 113, 0.2);
   box-shadow: 0 0 15px rgba(255, 61, 113, 0.4);

@@ -189,6 +189,14 @@ const Layout: React.FC<LayoutProps> = ({
                 >
                   <i className="fas fa-user" />
                 </Link>
+                <Link 
+                  href="/admin-login" 
+                  className="admin-icon" 
+                  data-tooltip="管理員登入" 
+                  aria-label="Admin Login"
+                >
+                  <i className="fas fa-cog" />
+                </Link>
                 <button 
                   onClick={handleLogout} 
                   className="logout-icon" 
@@ -243,6 +251,9 @@ const Layout: React.FC<LayoutProps> = ({
               <>
                 <Link href="/user" onClick={() => setMobileMenuOpen(false)}>
                   {t.myAccount}
+                </Link>
+                <Link href="/admin-login" onClick={() => setMobileMenuOpen(false)}>
+                  ⚙️ 管理員登入
                 </Link>
                 <button onClick={(e) => { setMobileMenuOpen(false); handleLogout(e); }}>
                   {t.logout}
