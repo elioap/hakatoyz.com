@@ -142,6 +142,8 @@ export default function UserWishlistPage() {
                               src={item.image} 
                               alt={item.name} 
                               className="w-full h-full object-cover"
+                              width={64}
+                              height={64}
                             />
                           </div>
                           <div>

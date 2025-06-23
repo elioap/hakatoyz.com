@@ -74,6 +74,8 @@ export default function UserPage() {
                     src="/images/avatar-placeholder.jpg" 
                     alt="Avatar" 
                     className="w-full h-full object-cover" 
+                    width={64}
+                    height={64}
                   />
                 </div>
                 <div>

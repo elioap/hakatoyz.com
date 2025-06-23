@@ -44,7 +44,7 @@ export default function ProductsAPI() {
     };
     
     fetchProducts();
-  }, [selectedCategory, langKey]);
+  }, [selectedCategory, langKey, isEnglish]);
   
   // 獲取唯一分類列表
   const categories = useMemo(() => {
