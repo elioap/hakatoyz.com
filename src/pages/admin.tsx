@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '@/components/Layout';
 import { Product } from '@/data/products';
+import Link from 'next/link';
 
 interface NewProduct {
   name: { zh: string; en: string };
@@ -500,6 +501,13 @@ const AdminPage: React.FC = () => {
               ))}
             </div>
           </div>
+
+          <Link 
+            href="/admin/order-dashboard"
+            className="bg-green-500 text-white px-6 py-3 rounded-lg hover:bg-green-600 font-semibold"
+          >
+            📦 訂單管理儀表板
+          </Link>
         </div>
       </div>
 

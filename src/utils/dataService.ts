@@ -7,7 +7,11 @@ export class DataService {
   static async getAllProducts(): Promise<Product[]> {
     try {
       const response = await apiService.getProducts();
-      return response.data.data || [];
+      // Strapi 響應格式: { data: [...], meta: {...} }
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -20,7 +24,13 @@ export class DataService {
   static async getProductById(id: number): Promise<Product | null> {
     try {
       const response = await apiService.getProduct(id);
-      return response.data.data || null;
+      const item = response.data.data;
+      if (!item) return null;
+      
+      return {
+        id: item.id,
+        ...item.attributes
+      };
     } catch (error) {
       console.warn('API獲取產品詳情失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -33,7 +43,10 @@ export class DataService {
   static async getProductsByCategory(category: string, locale: string = 'en'): Promise<Product[]> {
     try {
       const response = await apiService.getProductsByCategory(category);
-      return response.data.data || [];
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取分類產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -46,7 +59,10 @@ export class DataService {
   static async searchProducts(query: string, locale: string = 'en'): Promise<Product[]> {
     try {
       const response = await apiService.searchProducts(query);
-      return response.data.data || [];
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API搜索產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -58,9 +74,14 @@ export class DataService {
   // 獲取熱門產品
   static async getHotProducts(): Promise<Product[]> {
     try {
-      const response = await apiService.getProducts();
-      const allProducts: Product[] = response.data.data || [];
-      return allProducts.filter((product: Product) => product.tag === 'hot' || product.tags?.includes('HOT'));
+      const response = await apiService.getProducts({
+        'filters[tag][$eq]': 'hot',
+        'populate': '*'
+      });
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取熱門產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -72,9 +93,14 @@ export class DataService {
   // 獲取新品
   static async getNewProducts(): Promise<Product[]> {
     try {
-      const response = await apiService.getProducts();
-      const allProducts: Product[] = response.data.data || [];
-      return allProducts.filter((product: Product) => product.tag === 'new');
+      const response = await apiService.getProducts({
+        'filters[tag][$eq]': 'new',
+        'populate': '*'
+      });
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取新品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -86,9 +112,14 @@ export class DataService {
   // 獲取限量產品
   static async getLimitedProducts(): Promise<Product[]> {
     try {
-      const response = await apiService.getProducts();
-      const allProducts: Product[] = response.data.data || [];
-      return allProducts.filter((product: Product) => product.tag === 'limited' || product.tags?.includes('LIMITED'));
+      const response = await apiService.getProducts({
+        'filters[tag][$eq]': 'limited',
+        'populate': '*'
+      });
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取限量產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
@@ -100,14 +131,15 @@ export class DataService {
   // 獲取特色產品（用於首頁展示）
   static async getFeaturedProducts(limit: number = 6): Promise<Product[]> {
     try {
-      const response = await apiService.getProducts();
-      const allProducts: Product[] = response.data.data || [];
-      // 優先顯示有標籤的產品，然後按創建時間排序
-      const featured = allProducts
-        .filter((product: Product) => product.tag || product.tags?.length)
-        .sort((a: Product, b: Product) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      
-      return featured.slice(0, limit);
+      const response = await apiService.getProducts({
+        'pagination[limit]': limit,
+        'sort': 'createdAt:desc',
+        'populate': '*'
+      });
+      return response.data.data?.map((item: any) => ({
+        id: item.id,
+        ...item.attributes
+      })) || [];
     } catch (error) {
       console.warn('API獲取特色產品失敗，使用靜態數據:', error);
       // 後備到靜態數據
