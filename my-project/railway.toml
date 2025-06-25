@@ -1,0 +1,14 @@
+[build]
+command = "npm install && npm run build"
+
+[deploy]
+startCommand = "npm run start"
+healthcheckPath = "/admin"
+healthcheckTimeout = 300
+
+[env]
+NODE_ENV = "production"
+PORT = "1337"
+
+[variables]
+DATABASE_CLIENT = "postgres" 
