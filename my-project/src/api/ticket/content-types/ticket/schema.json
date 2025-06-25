@@ -1,0 +1,81 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tickets",
+  "info": {
+    "singularName": "ticket",
+    "pluralName": "tickets",
+    "displayName": "Ticket",
+    "description": "客服工單"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "ticketNumber": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "order": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order.order"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["general_inquiry", "order_issue", "return_request", "refund_request", "technical_support", "complaint"],
+      "required": true
+    },
+    "priority": {
+      "type": "enumeration",
+      "enum": ["low", "normal", "high", "urgent"],
+      "default": "normal"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["open", "in_progress", "waiting_for_customer", "resolved", "closed"],
+      "default": "open"
+    },
+    "subject": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "customerEmail": {
+      "type": "email",
+      "required": true
+    },
+    "customerPhone": {
+      "type": "string"
+    },
+    "attachments": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images", "files"]
+    },
+    "adminNotes": {
+      "type": "text"
+    },
+    "resolution": {
+      "type": "text"
+    },
+    "assignedTo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "resolvedAt": {
+      "type": "datetime"
+    }
+  }
+} 

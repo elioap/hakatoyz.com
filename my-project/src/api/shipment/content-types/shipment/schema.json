@@ -1,0 +1,63 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipments",
+  "info": {
+    "singularName": "shipment",
+    "pluralName": "shipments",
+    "displayName": "Shipment",
+    "description": "物流運送"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "inversedBy": "shipment"
+    },
+    "carrier": {
+      "type": "string",
+      "required": true
+    },
+    "trackingNumber": {
+      "type": "string",
+      "unique": true
+    },
+    "trackingUrl": {
+      "type": "string"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["preparing", "picked_up", "in_transit", "out_for_delivery", "delivered", "returned", "lost"],
+      "default": "preparing"
+    },
+    "shippedAt": {
+      "type": "datetime"
+    },
+    "estimatedDeliveryDate": {
+      "type": "date"
+    },
+    "deliveredAt": {
+      "type": "datetime"
+    },
+    "recipientName": {
+      "type": "string"
+    },
+    "deliveryNotes": {
+      "type": "text"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "dimensions": {
+      "type": "string"
+    },
+    "shippingCost": {
+      "type": "decimal",
+      "default": 0
+    }
+  }
+} 

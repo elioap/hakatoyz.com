@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "singularName": "address",
+    "pluralName": "addresses",
+    "displayName": "Address",
+    "description": "用戶地址"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "addressBlock": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address-block",
+      "required": true
+    },
+    "isDefault": {
+      "type": "boolean",
+      "default": false
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["home", "office", "other"],
+      "default": "home"
+    }
+  }
+} 

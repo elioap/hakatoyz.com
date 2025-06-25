@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "wishlists",
+  "info": {
+    "singularName": "wishlist",
+    "pluralName": "wishlists",
+    "displayName": "Wishlist",
+    "description": "願望清單"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product"
+    },
+    "name": {
+      "type": "string",
+      "default": "我的願望清單"
+    },
+    "isDefault": {
+      "type": "boolean",
+      "default": true
+    },
+    "isPublic": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+} 

@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "inventories",
+  "info": {
+    "singularName": "inventory",
+    "pluralName": "inventories",
+    "displayName": "Inventory",
+    "description": "庫存管理"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "productVariant": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-variant.product-variant",
+      "inversedBy": "inventoryLogs"
+    },
+    "changeType": {
+      "type": "enumeration",
+      "enum": ["in", "out", "adjustment", "reserved", "released"],
+      "required": true
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true
+    },
+    "previousStock": {
+      "type": "integer",
+      "required": true
+    },
+    "newStock": {
+      "type": "integer",
+      "required": true
+    },
+    "reason": {
+      "type": "string",
+      "required": true
+    },
+    "notes": {
+      "type": "text"
+    },
+    "referenceType": {
+      "type": "enumeration",
+      "enum": ["order", "return", "adjustment", "purchase", "damaged"],
+      "required": true
+    },
+    "referenceId": {
+      "type": "string"
+    },
+    "performedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+} 

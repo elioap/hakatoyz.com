@@ -1,9 +1,15 @@
 'use strict';
 
 /**
- * product controller
+ * A set of functions called "actions" for `product`
  */
 
-const { createCoreController } = require('@strapi/strapi').factories;
-
-module.exports = createCoreController('api::product.product'); 
+module.exports = {
+  // exampleAction: async (ctx, next) => {
+  //   try {
+  //     ctx.body = 'ok';
+  //   } catch (err) {
+  //     ctx.body = err;
+  //   }
+  // }
+};

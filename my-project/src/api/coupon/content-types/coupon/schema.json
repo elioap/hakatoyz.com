@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupons",
+  "info": {
+    "singularName": "coupon",
+    "pluralName": "coupons",
+    "displayName": "Coupon",
+    "description": "優惠券"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "discountType": {
+      "type": "enumeration",
+      "enum": ["percentage", "fixed_amount", "free_shipping"],
+      "required": true
+    },
+    "discountValue": {
+      "type": "decimal",
+      "required": true
+    },
+    "minimumOrderAmount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "maximumDiscountAmount": {
+      "type": "decimal"
+    },
+    "startDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "endDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "usageLimit": {
+      "type": "integer"
+    },
+    "usageCount": {
+      "type": "integer",
+      "default": 0
+    },
+    "userUsageLimit": {
+      "type": "integer",
+      "default": 1
+    },
+    "applicableProducts": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product"
+    },
+    "applicableCategories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+} 

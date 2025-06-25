@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_shared_address_blocks",
+  "info": {
+    "displayName": "Address Block",
+    "icon": "map-pin",
+    "description": "地址組件"
+  },
+  "options": {},
+  "attributes": {
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string",
+      "default": "Taiwan"
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "district": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "string",
+      "required": true
+    },
+    "addressLine1": {
+      "type": "string",
+      "required": true
+    },
+    "addressLine2": {
+      "type": "string"
+    },
+    "isDefault": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+} 

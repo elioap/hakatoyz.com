@@ -5,10 +5,10 @@
     "singularName": "order",
     "pluralName": "orders",
     "displayName": "Order",
-    "description": "Complete order management with customer information"
+    "description": "訂單"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -16,6 +16,11 @@
       "type": "string",
       "required": true,
       "unique": true
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
     },
     "customerName": {
       "type": "string",
@@ -27,66 +32,84 @@
     },
     "customerPhone": {
       "type": "string",
-      "required": false
+      "required": true
     },
     "shippingAddress": {
-      "type": "text",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address-block",
       "required": true
     },
     "billingAddress": {
-      "type": "text",
-      "required": false
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.address-block"
     },
-    "products": {
-      "type": "json",
+    "items": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cart-item.cart-item",
+      "mappedBy": "order"
+    },
+    "subtotal": {
+      "type": "decimal",
       "required": true
+    },
+    "shippingCost": {
+      "type": "decimal",
+      "default": 0
+    },
+    "taxAmount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "discountAmount": {
+      "type": "decimal",
+      "default": 0
     },
     "totalAmount": {
       "type": "decimal",
       "required": true
     },
+    "currency": {
+      "type": "string",
+      "default": "TWD"
+    },
     "status": {
       "type": "enumeration",
-      "enum": [
-        "Pending",
-        "Confirmed",
-        "Processing",
-        "Shipped",
-        "Delivered",
-        "Cancelled",
-        "Refunded"
-      ],
-      "default": "Pending",
-      "required": true
-    },
-    "paymentMethod": {
-      "type": "enumeration",
-      "enum": [
-        "Credit Card",
-        "PayPal",
-        "Bank Transfer",
-        "Cash on Delivery"
-      ],
-      "required": false
+      "enum": ["pending", "confirmed", "processing", "shipped", "delivered", "cancelled", "refunded"],
+      "default": "pending"
     },
     "paymentStatus": {
       "type": "enumeration",
-      "enum": [
-        "Pending",
-        "Paid",
-        "Failed",
-        "Refunded"
-      ],
-      "default": "Pending",
+      "enum": ["pending", "paid", "failed", "refunded", "partially_refunded"],
+      "default": "pending"
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["credit_card", "bank_transfer", "cash_on_delivery", "digital_wallet"],
       "required": true
     },
+    "couponCode": {
+      "type": "string"
+    },
     "notes": {
-      "type": "text",
-      "required": false
+      "type": "text"
     },
     "trackingNumber": {
-      "type": "string",
-      "required": false
+      "type": "string"
+    },
+    "payment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::payment.payment",
+      "mappedBy": "order"
+    },
+    "shipment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::shipment.shipment",
+      "mappedBy": "order"
     }
   }
 } 

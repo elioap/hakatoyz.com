@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "Payment",
+    "description": "付款記錄"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "inversedBy": "payment"
+    },
+    "transactionId": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "paymentGateway": {
+      "type": "string",
+      "required": true
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": ["credit_card", "bank_transfer", "cash_on_delivery", "digital_wallet"],
+      "required": true
+    },
+    "amount": {
+      "type": "decimal",
+      "required": true
+    },
+    "currency": {
+      "type": "string",
+      "default": "TWD"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["pending", "processing", "completed", "failed", "cancelled", "refunded", "partially_refunded"],
+      "default": "pending"
+    },
+    "gatewayResponse": {
+      "type": "json"
+    },
+    "failureReason": {
+      "type": "text"
+    },
+    "refundAmount": {
+      "type": "decimal",
+      "default": 0
+    },
+    "refundReason": {
+      "type": "text"
+    },
+    "paidAt": {
+      "type": "datetime"
+    },
+    "refundedAt": {
+      "type": "datetime"
+    }
+  }
+} 

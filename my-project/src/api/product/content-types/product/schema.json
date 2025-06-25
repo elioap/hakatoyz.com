@@ -5,42 +5,106 @@
     "singularName": "product",
     "pluralName": "products",
     "displayName": "Product",
-    "description": ""
+    "description": "商品"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
+    "name": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
     },
-    "price": {
-      "type": "decimal",
-      "required": true,
-      "min": 0
-    },
-    "inStock": {
-      "type": "boolean",
-      "default": true,
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
       "required": true
     },
     "description": {
       "type": "richtext"
     },
-    "image": {
+    "shortDescription": {
+      "type": "text",
+      "maxLength": 255
+    },
+    "sku": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "price": {
+      "type": "component",
+      "repeatable": false,
+      "component": "ecommerce.price",
+      "required": true
+    },
+    "images": {
       "type": "media",
       "multiple": true,
       "required": false,
       "allowedTypes": ["images"]
     },
-    "category": {
+    "categories": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "products"
+    },
+    "brand": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brand.brand",
+      "inversedBy": "products"
+    },
+    "variants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-variant.product-variant",
+      "mappedBy": "product"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "product"
+    },
+    "weight": {
+      "type": "decimal"
+    },
+    "dimensions": {
+      "type": "string"
+    },
+    "material": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "isFeatured": {
+      "type": "boolean",
+      "default": false
+    },
+    "isDigital": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["active", "inactive", "draft", "out_of_stock"],
+      "default": "draft"
+    },
+    "minimumOrderQuantity": {
+      "type": "integer",
+      "default": 1
+    },
+    "maximumOrderQuantity": {
+      "type": "integer"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
     }
   }
 } 

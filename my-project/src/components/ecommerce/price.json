@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_ecommerce_prices",
+  "info": {
+    "displayName": "Price",
+    "icon": "dollar-sign",
+    "description": "價格組件，包含原價、售價、幣別、促銷價有效期"
+  },
+  "options": {},
+  "attributes": {
+    "originalPrice": {
+      "type": "decimal",
+      "required": false
+    },
+    "salePrice": {
+      "type": "decimal",
+      "required": true
+    },
+    "currency": {
+      "type": "string",
+      "default": "TWD",
+      "required": true
+    },
+    "promoStartDate": {
+      "type": "datetime",
+      "required": false
+    },
+    "promoEndDate": {
+      "type": "datetime",
+      "required": false
+    },
+    "isOnSale": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+} 
