@@ -1,10 +1,12 @@
 [build]
 # 設置正確的根目錄為 my-project
 workingDirectory = "my-project"
-command = "npm ci"
+# 使用 Railway 原生 Node.js 構建
+command = "npm ci --silent"
 
 [deploy]
 workingDirectory = "my-project"
+# 直接啟動 develop 模式避免構建問題
 startCommand = "npm run develop"
 healthcheckPath = "/"
 healthcheckTimeout = 300
