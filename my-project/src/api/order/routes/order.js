@@ -1,13 +1,3 @@
-module.exports = {
-  routes: [
-    // {
-    //  method: 'GET',
-    //  path: '/order',
-    //  handler: 'order.exampleAction',
-    //  config: {
-    //    policies: [],
-    //    middlewares: [],
-    //  },
-    // },
-  ],
-};
+const { createCoreRouter } = require('@strapi/strapi').factories;
+
+module.exports = createCoreRouter('api::order.order');
