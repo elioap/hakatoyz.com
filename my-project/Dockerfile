@@ -6,15 +6,11 @@ COPY package*.json ./
 
 RUN npm ci --silent
 
-COPY src ./src
-COPY config ./config
-COPY database ./database
-COPY public ./public
-
-COPY .env* ./
-COPY favicon.png ./
+COPY . .
 
 ENV NODE_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=1337
 
 EXPOSE 1337
 

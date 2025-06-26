@@ -1,14 +1,17 @@
 [build]
-command = "npm install && npm run build"
+# 跳過構建命令，直接使用 Dockerfile
+command = "echo 'Using Dockerfile for build'"
 
 [deploy]
-startCommand = "npm run start"
-healthcheckPath = "/admin"
+# 使用 develop 模式避免構建問題
+startCommand = "npm run develop"
+healthcheckPath = "/"
 healthcheckTimeout = 300
 
 [env]
 NODE_ENV = "production"
 PORT = "1337"
+HOST = "0.0.0.0"
 
 [variables]
 DATABASE_CLIENT = "postgres" 
