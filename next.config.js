@@ -90,12 +90,6 @@ const nextConfig = {
     ];
   },
   
-  // 實驗性功能
-  experimental: {
-    optimizeCss: true,
-    scrollRestoration: true,
-  },
-  
   // 靜態文件優化
   trailingSlash: false,
 };
