@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://hakatoyz.com</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hakatoyz.com"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hakatoyz.com/en"/>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/products</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hakatoyz.com/products"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hakatoyz.com/en/products"/>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/categories</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hakatoyz.com/categories"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hakatoyz.com/en/categories"/>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hakatoyz.com/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hakatoyz.com/en/about"/>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/contact</loc>
+    <xhtml:link rel="alternate" hreflang="zh" href="https://hakatoyz.com/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hakatoyz.com/en/contact"/>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <!-- 產品分類頁面 -->
+  <url>
+    <loc>https://hakatoyz.com/products/api-version</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- 用戶相關頁面 -->
+  <url>
+    <loc>https://hakatoyz.com/login</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/register</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <!-- 幫助頁面 -->
+  <url>
+    <loc>https://hakatoyz.com/help-faq</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/help-shipping</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://hakatoyz.com/help-returns</loc>
+    <lastmod>2024-12-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset> 

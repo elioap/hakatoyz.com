@@ -15,76 +15,76 @@ const HomePage: React.FC = () => {
   
   // 根據當前語言選擇內容
   const t = {
-    heroTitle: isEnglish ? 'Trendy Goods from USA' : '美國時尚潮品',
+    heroTitle: isEnglish ? 'Trendy Cool Toys from USA' : '美國時尚潮物',
     heroDescription: isEnglish
-      ? 'Discover unique trendy products from the USA. We bring the latest trends to your doorstep worldwide.'
-      : '探索美國獨特的時尚潮品。我們將最新潮流帶到全球各地的你身邊。',
-    shopNow: isEnglish ? 'SHOP NOW' : '立即選購',
-    trendingTitle: isEnglish ? 'Trending Now' : '人氣爆款',
-    trendingDescription: isEnglish ? 'Most popular items this week' : '本週最熱門商品',
-    kawsCompanion: isEnglish ? 'KAWS Companion' : 'KAWS 公仔',
-    supremeHoodie: isEnglish ? 'Supreme Hoodie' : 'Supreme 衛衣',
+      ? 'Discover unique trendy toys, cool figures, kawaii collectibles and designer products from the USA. We bring the latest cool stuff and trendy products to your doorstep worldwide with authentic guarantee.'
+      : '探索美國獨特的時尚潮物、帥氣玩具、cool公仔、吉依卡娃收藏品。我們將最新潮流商品和帥氣新品帶到全球各地，正品保證，讓您輕鬆擁有最酷的潮流玩具。',
+    shopNow: isEnglish ? 'SHOP COOL STUFF NOW' : '立即選購潮物',
+    trendingTitle: isEnglish ? 'Trending Cool Toys Now' : '人氣爆款潮物',
+    trendingDescription: isEnglish ? 'Most popular cool figures and trendy toys this week' : '本週最熱門的帥氣玩具和潮流公仔',
+    kawsCompanion: isEnglish ? 'KAWS Companion Cool Figure' : 'KAWS 帥氣公仔',
+    supremeHoodie: isEnglish ? 'Supreme Cool Hoodie' : 'Supreme 潮流衛衣',
     nikeOffWhite: 'Nike x Off-White',
     quickOrder: isEnglish ? 'Quick Order' : '快速下單',
-    featuredBrandsTitle: isEnglish ? 'Featured Brands' : '熱門代購品牌',
-    featuredBrandsDesc: isEnglish ? 'We partner with the best brands in the USA' : '我們與美國頂級品牌合作',
-    featuredProductsTitle: isEnglish ? 'Featured Products' : '熱門商品',
-    featuredProductsDesc: isEnglish ? 'Hand-picked popular items for you' : '精選最受歡迎的代購商品',
+    featuredBrandsTitle: isEnglish ? 'Featured Cool Brands' : '熱門潮流代購品牌',
+    featuredBrandsDesc: isEnglish ? 'We partner with the coolest and trendiest brands from USA' : '我們與美國最帥氣的潮流品牌合作',
+    featuredProductsTitle: isEnglish ? 'Featured Cool Products' : '熱門潮物商品',
+    featuredProductsDesc: isEnglish ? 'Hand-picked trendy and cool collectibles for you' : '精選最受歡迎的帥氣代購潮物',
     viewDetails: isEnglish ? 'View Details' : '查看詳情',
     addToCart: isEnglish ? 'Add to Cart' : '加入購物車',
     hot: isEnglish ? 'Hot' : '熱賣',
     new: isEnglish ? 'New' : '新品',
     limited: isEnglish ? 'Limited' : '限量',
-    cyberMechaFigure: isEnglish ? 'Cyber Mecha Figure' : 'Cyber Mecha 機甲模型',
-    retroSynthwaveCar: isEnglish ? 'Retro Synthwave Car' : '復古賽博跑車模型',
-    viewMoreProducts: isEnglish ? 'View More Products' : '查看更多商品',
-    categoriesTitle: isEnglish ? 'Categories' : '商品分類',
-    categoriesDesc: isEnglish ? 'Browse different types of trending products' : '瀏覽不同類別的潮流商品',
-    designerToys: isEnglish ? 'Designer Toys' : '潮玩手辦',
-    fashionApparel: isEnglish ? 'Fashion Apparel' : '時尚服飾',
-    limitedSneakers: isEnglish ? 'Limited Sneakers' : '限量球鞋',
-    artCollectibles: isEnglish ? 'Art Collectibles' : '藝術收藏',
+    cyberMechaFigure: isEnglish ? 'Cool Cyber Mecha Figure' : 'Cool Cyber Mecha 帥氣機甲模型',
+    retroSynthwaveCar: isEnglish ? 'Retro Cool Synthwave Car' : '復古帥氣賽博跑車模型',
+    viewMoreProducts: isEnglish ? 'View More Cool Products' : '查看更多潮物商品',
+    categoriesTitle: isEnglish ? 'Cool Categories' : '潮物分類',
+    categoriesDesc: isEnglish ? 'Browse different types of trendy and cool products' : '瀏覽不同類別的帥氣潮流商品',
+    designerToys: isEnglish ? 'Designer Cool Toys' : '設計師潮玩手辦',
+    fashionApparel: isEnglish ? 'Cool Fashion Apparel' : '帥氣時尚服飾',
+    limitedSneakers: isEnglish ? 'Limited Cool Sneakers' : '限量帥氣球鞋',
+    artCollectibles: isEnglish ? 'Cool Art Collectibles' : '帥氣藝術收藏',
     viewProducts: isEnglish ? 'View Products' : '查看商品',
-    whyChooseUsTitle: isEnglish ? 'Why Choose Us' : '為什麼選擇我們',
-    whyChooseUsDesc: isEnglish ? 'The Haka Toyz Advantage' : 'Haka Toyz 的服務優勢',
-    authenticProducts: isEnglish ? 'Authentic Products' : '正品保證',
+    whyChooseUsTitle: isEnglish ? 'Why Choose Our Cool Service' : '為什麼選擇我們的潮物服務',
+    whyChooseUsDesc: isEnglish ? 'The Haka Toyz Cool Advantage' : 'Haka Toyz 的潮流服務優勢',
+    authenticProducts: isEnglish ? 'Authentic Cool Products' : '正品帥氣商品保證',
     authenticProductsDesc: isEnglish 
-      ? 'All items are purchased directly from official US sources with proof of authenticity'
-      : '所有商品均從美國官方渠道直接採購，100% 正品保證，提供購買憑證',
-    globalShipping: isEnglish ? 'Global Shipping' : '全球直郵',
+      ? 'All cool toys and trendy items are purchased directly from official US sources with proof of authenticity'
+      : '所有帥氣玩具和潮物均從美國官方渠道直接採購，100% 正品保證，提供購買憑證',
+    globalShipping: isEnglish ? 'Global Cool Shipping' : '全球潮物直郵',
     globalShippingDesc: isEnglish
-      ? 'Professional international shipping from the US to your doorstep'
-      : '專業國際物流團隊，提供從美國到中國的安全快速直郵服務',
-    expertSupport: isEnglish ? 'Expert Support' : '專業客服',
+      ? 'Professional international shipping of cool toys and trendy products from the US to your doorstep'
+      : '專業國際物流團隊，提供從美國到中國的安全快速潮物直郵服務',
+    expertSupport: isEnglish ? 'Expert Cool Support' : '專業潮物客服',
     expertSupportDesc: isEnglish
-      ? 'Bilingual customer service team available 24/7 to assist you'
-      : '提供全中文專業客服團隊，7x24小時在線解答您的問題',
-    transparentPricing: isEnglish ? 'Transparent Pricing' : '價格透明',
+      ? 'Bilingual customer service team available 24/7 to assist with your cool toy and trendy product needs'
+      : '提供全中文專業客服團隊，7x24小時在線解答您的潮物和帥氣玩具問題',
+    transparentPricing: isEnglish ? 'Transparent Cool Pricing' : '潮物價格透明',
     transparentPricingDesc: isEnglish
-      ? 'Clear fee structure with no hidden costs and multiple payment methods'
-      : '所有費用清晰標註，無隱藏收費，支持多種付款方式',
-    customerReviewsTitle: isEnglish ? 'Customer Reviews' : '客戶評價',
-    customerReviewsDesc: isEnglish ? 'What our customers say about us' : '聽聽我們的客戶怎麼說',
+      ? 'Clear fee structure for cool toys with no hidden costs and multiple payment methods'
+      : '所有潮物費用清晰標註，無隱藏收費，支持多種付款方式',
+    customerReviewsTitle: isEnglish ? 'Cool Customer Reviews' : '潮物客戶評價',
+    customerReviewsDesc: isEnglish ? 'What our customers say about our cool products and service' : '聽聽我們的潮物客戶怎麼說',
     review1: isEnglish
-      ? '"I\'ve made multiple purchases through Haka Toyz and every time I\'ve been completely satisfied. The products are authentic, well-packaged, and they arrived earlier than expected! The customer service team was very professional and helpful."'
-      : '"已經通過 Haka Toyz 購買了多次，每次都非常滿意。商品是正品，包裝也很完好，而且比預計時間提前到貨！客服小姐姐服務態度非常好，解答問題很專業。"',
+      ? '"I\'ve made multiple purchases of cool toys through Haka Toyz and every time I\'ve been completely satisfied. The trendy products are authentic, well-packaged, and they arrived earlier than expected! The customer service team was very professional and helpful with my cool collectibles."'
+      : '"已經通過 Haka Toyz 購買了多次帥氣潮物，每次都非常滿意。商品是正品，包裝也很完好，而且比預計時間提前到貨！客服小姐姐服務態度非常好，解答潮物問題很專業。"',
     review2: isEnglish
-      ? '"Haka Toyz helped me get a limited edition BE@RBRICK that sold out instantly on the official website. I\'m so grateful! They had connections to source it, and their price was better than other resellers. The process was smooth and the staff was very professional."'
-      : '"Haka Toyz 幫我買到了限量版的 BE@RBRICK 手辦，真的太感謝了！當時官網秒沒，但他們有渠道拿到，價格也比其他代購便宜，客服非常專業，整個過程很順利。"',
-    contactUsTitle: isEnglish ? 'Contact Us' : '聯絡我們',
+      ? '"Haka Toyz helped me get a limited edition cool BE@RBRICK that sold out instantly on the official website. I\'m so grateful! They had connections to source trendy collectibles, and their price was better than other proxy services. The process was smooth and the staff was very professional with cool toys."'
+      : '"Haka Toyz 幫我買到了限量版的超帥氣 BE@RBRICK 手辦，真的太感謝了！當時官網秒沒，但他們有渠道拿到這些潮物，價格也比其他代購便宜，客服非常專業，整個潮流玩具購買過程很順利。"',
+    contactUsTitle: isEnglish ? 'Contact Us for Cool Stuff' : '聯絡我們購買潮物',
     contactUsDesc: isEnglish
-      ? 'For any inquiries or purchasing requests, please get in touch'
-      : '有任何問題或代購需求，請隨時聯絡我們',
+      ? 'For any inquiries about cool toys or trendy product purchasing requests, please get in touch'
+      : '有任何帥氣潮物問題或代購需求，請隨時聯絡我們',
     email: isEnglish ? 'Email' : '郵箱',
     phone: isEnglish ? 'Phone' : '電話',
     name: isEnglish ? 'Name' : '姓名',
     message: isEnglish ? 'Message' : '留言',
     sendMessage: isEnglish ? 'Send Message' : '發送消息',
-    newsletterTitle: isEnglish ? 'Subscribe to Our Newsletter' : '訂閱我們的資訊',
+    newsletterTitle: isEnglish ? 'Subscribe for Cool Updates' : '訂閱我們的潮物資訊',
     newsletterDesc: isEnglish
-      ? 'Get instant updates on limited releases and exclusive offers'
-      : '第一時間獲取限量發售信息和獨家優惠',
-    emailPlaceholder: isEnglish ? 'Enter your email address' : '請輸入您的郵箱地址',
+      ? 'Get instant updates on limited cool releases and exclusive trendy offers'
+      : '第一時間獲取限量潮物發售信息和獨家帥氣商品優惠',
+    emailPlaceholder: isEnglish ? 'Enter your email for cool updates' : '請輸入您的郵箱獲取潮物資訊',
     subscribe: isEnglish ? 'Subscribe' : '訂閱',
   };
   
@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
   
   return (
     <Layout
-      title={isEnglish ? 'Haka Toyz - Trendy Goods from USA' : 'Haka Toyz - 美國代購潮物'}
+      title={isEnglish ? 'Haka Toyz - Trendy Cool Toys from USA' : 'Haka Toyz - 美國代購潮物'}
       description={isEnglish 
         ? 'Discover trendy and exclusive items from the USA at Haka Toyz. We ship worldwide.'
         : '在Haka Toyz發現來自美國的時尚獨家商品。我們提供全球配送服務。'
@@ -130,9 +130,9 @@ const HomePage: React.FC = () => {
             <div className="hero-content">
               <h2>
                 {isEnglish ? (
-                  <>Discover <span>Trendy</span> Goods from USA</>
+                  <>Discover <span>Trendy</span> Cool Toys from USA</>
                 ) : (
-                  <>探索美國<span>時尚潮品</span></>
+                  <>探索美國<span>時尚潮物</span></>
                 )}
               </h2>
               <p>{t.heroDescription}</p>

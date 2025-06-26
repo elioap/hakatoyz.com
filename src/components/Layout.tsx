@@ -10,12 +10,18 @@ interface LayoutProps {
   children: ReactNode;
   title?: string;
   description?: string;
+  keywords?: string;
+  ogImage?: string;
+  ogType?: string;
 }
 
 const Layout: React.FC<LayoutProps> = ({ 
   children, 
-  title = 'Haka Toyz - 美國代購潮物', 
-  description = '您的優質美國代購服務' 
+  title = 'Haka Toyz - 美國代購潮物｜新品玩具｜帥氣公仔｜吉依卡娃｜Cool潮流商品', 
+  description = '專業美國代購平台！提供最新潮物、帥氣玩具、cool公仔、吉依卡娃等新品。KAWS、BE@RBRICK、Supreme限量手辦，正品保證，全球直郵，讓您輕鬆購買美國最潮流的玩具收藏品。',
+  keywords = '潮物,新品,玩具,帥,cool,代購,吉依卡娃,公仔,美國代購,KAWS,BE@RBRICK,潮流玩具,限量手辦,設計師玩具,正品保證',
+  ogImage = '/images/og-image.jpg',
+  ogType = 'website'
 }) => {
   const router = useRouter();
   const { locale, pathname, asPath, query } = router;
@@ -24,6 +30,25 @@ const Layout: React.FC<LayoutProps> = ({
   
   // 客戶端狀態儲存購物車商品數量
   const [cartCount, setCartCount] = useState<number>(0);
+  
+  // 判斷當前語言
+  const isEnglish = locale === 'en';
+  
+  // 動態SEO內容根據語言調整
+  const seoContent = {
+    title: isEnglish 
+      ? 'Haka Toyz - USA Trendy Toys | Cool Figures | Kawaii Collectibles | Designer Toys'
+      : title,
+    description: isEnglish
+      ? 'Professional USA proxy shopping platform! Get the latest trendy toys, cool figures, kawaii collectibles, and designer toys. KAWS, BE@RBRICK, Supreme limited editions with authentic guarantee and worldwide shipping.'
+      : description,
+    keywords: isEnglish
+      ? 'trendy toys,cool figures,kawaii,collectibles,designer toys,KAWS,BE@RBRICK,Supreme,proxy shopping,USA import,authentic toys,limited edition,hypebeast toys'
+      : keywords
+  };
+  
+  // 生成完整的頁面URL
+  const fullUrl = `https://hakatoyz.com${asPath}`;
   
   // 在客戶端渲染後更新購物車數量
   useEffect(() => {
@@ -43,9 +68,6 @@ const Layout: React.FC<LayoutProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  
-  // 判斷當前語言
-  const isEnglish = locale === 'en';
   
   // 在頁面載入時應用適合的語言類
   useEffect(() => {
@@ -122,7 +144,7 @@ const Layout: React.FC<LayoutProps> = ({
     categories: isEnglish ? 'Categories' : '分類',
     about: isEnglish ? 'About' : '關於我們',
     contactUs: isEnglish ? 'Contact Us' : '聯絡我們',
-    searchPlaceholder: isEnglish ? 'Search products...' : '搜尋商品...',
+    searchPlaceholder: isEnglish ? 'Search trendy toys, cool figures...' : '搜尋潮物、帥氣玩具、公仔...',
     myAccount: isEnglish ? 'My Account' : '我的帳戶',
     memberLogin: isEnglish ? 'Member Login' : '會員登入',
     trendyProducts: isEnglish ? 'Trendy Products from USA' : '美國代購潮物',
@@ -144,11 +166,85 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <>
       <Head>
-        <title>{title}</title>
+        {/* 基本 SEO Meta Tags */}
+        <title>{seoContent.title}</title>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta name="description" content={description} />
+        <meta name="description" content={seoContent.description} />
+        <meta name="keywords" content={seoContent.keywords} />
+        <meta name="author" content="Haka Toyz" />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
         <meta name="theme-color" content="#121212" />
+        
+        {/* 語言和地區 */}
+        <meta httpEquiv="Content-Language" content={isEnglish ? "en-US" : "zh-TW"} />
+        <link rel="canonical" href={fullUrl} />
+        
+        {/* Open Graph Tags */}
+        <meta property="og:title" content={seoContent.title} />
+        <meta property="og:description" content={seoContent.description} />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={fullUrl} />
+        <meta property="og:image" content={`https://hakatoyz.com${ogImage}`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:site_name" content="Haka Toyz" />
+        <meta property="og:locale" content={isEnglish ? "en_US" : "zh_TW"} />
+        
+        {/* Twitter Card Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seoContent.title} />
+        <meta name="twitter:description" content={seoContent.description} />
+        <meta name="twitter:image" content={`https://hakatoyz.com${ogImage}`} />
+        <meta name="twitter:site" content="@hakatoyz" />
+        
+        {/* 產品相關的結構化數據 */}
+        {pathname === '/products' && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": isEnglish ? "Trendy Toys & Cool Collectibles" : "潮物新品玩具收藏",
+                "description": seoContent.description,
+                "url": fullUrl,
+                "mainEntity": {
+                  "@type": "ItemList",
+                  "name": isEnglish ? "Featured Products" : "熱門商品",
+                  "description": isEnglish ? "Cool and trendy toys from USA" : "來自美國的帥氣潮流玩具"
+                }
+              })
+            }}
+          />
+        )}
+        
+        {/* 首頁特殊的結構化數據 */}
+        {pathname === '/' && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Haka Toyz",
+                "alternateName": ["哈卡玩具", "美國代購潮物"],
+                "url": "https://hakatoyz.com",
+                "description": seoContent.description,
+                "keywords": seoContent.keywords,
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://hakatoyz.com/products?search={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                },
+                "audience": {
+                  "@type": "Audience",
+                  "audienceType": isEnglish ? "Toy collectors, trendy shoppers" : "玩具收藏家，潮流愛好者"
+                }
+              })
+            }}
+          />
+        )}
       </Head>
       
       {/* 導航欄 */}

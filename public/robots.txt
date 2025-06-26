@@ -1,0 +1,50 @@
+User-agent: *
+Allow: /
+
+# 允許搜索引擎索引所有公開頁面
+Allow: /products
+Allow: /categories
+Allow: /about
+Allow: /contact
+Allow: /help-*
+Allow: /login
+Allow: /register
+
+# 禁止索引管理頁面和私人區域
+Disallow: /admin
+Disallow: /user/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin-login
+
+# 禁止索引臨時文件和資源
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /404
+Disallow: /500
+
+# 允許重要靜態資源
+Allow: /images/
+Allow: /css/
+Allow: /js/
+Allow: /favicon.ico
+
+# 特殊搜索引擎指令
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# 網站地圖位置
+Sitemap: https://hakatoyz.com/sitemap.xml
+
+# 針對潮物、玩具相關的SEO優化註釋
+# 本網站主要提供：潮物、新品、玩具、帥、cool、代購、吉依卡娃、公仔
+# 專業美國代購平台，KAWS、BE@RBRICK、Supreme等潮流商品 
