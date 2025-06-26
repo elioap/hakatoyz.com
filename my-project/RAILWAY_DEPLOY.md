@@ -22,10 +22,10 @@ PORT=1337
 DATABASE_CLIENT=postgres
 
 # Strapi 安全密鑰（Railway 會自動生成）
-ADMIN_JWT_SECRET=你的管理員JWT密鑰
-JWT_SECRET=你的JWT密鑰
-API_TOKEN_SALT=你的API令牌鹽
-APP_KEYS=你的應用密鑰（用逗號分隔的4個密鑰）
+ADMIN_JWT_SECRET=PbN0THomRa1WZd9/KglZit75ZufZGJWfPoG8JyxHqlk=
+JWT_SECRET=a22+8wklZFWKVhzVlqVTFhW+cUooOR+93YHnL5DHZ+M=
+API_TOKEN_SALT=dYBkyHouleJ91kL5B11GlfxRaLiQJLSRofSK0vbM2Sg=
+APP_KEYS=k99P8Wpj5LM7SvBdXPMFo+9czYTIEOL4eqiKKVZA0eQ=,MuO05a3N8TcaCfJD2bIto046E0rlBvtZty7gs+jUAy8=,MDG8LOvH4/tEeo9+mj2wkeNIWvprOEQoPJH0PIt6lzM=,Ok6MK2EVW4zBYzkT5rZeWjOiVMsgJ32yajsavrpo4Zk=
 
 # 資料庫 URL（Railway PostgreSQL 會自動提供）
 DATABASE_URL=${{Postgres.DATABASE_URL}}
@@ -69,3 +69,7 @@ NEXT_PUBLIC_STRAPI_URL=https://你的railway域名.railway.app
 1. 訪問 `https://你的域名.railway.app/admin` 看到 Strapi 管理界面
 2. 訪問 `https://你的域名.railway.app/api/content-types` 看到 API 文檔
 3. 在前端應用中成功調用 Strapi API 
+
+npm install && npm run build
+Building admin panel...
+Strapi building... 

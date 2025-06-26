@@ -1,0 +1,19 @@
+[build]
+command = "npm install && npm run build"
+
+[deploy]
+startCommand = "npm run start"
+healthcheckPath = "/admin"
+healthcheckTimeout = 300
+
+[env]
+NODE_ENV = "production"
+PORT = "1337"
+HOST = "0.0.0.0"
+
+[variables]
+DATABASE_CLIENT = "postgres"
+
+# 明確指定為 Node.js 專案
+[build.env]
+NODE_VERSION = "20" 
