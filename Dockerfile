@@ -6,17 +6,24 @@ WORKDIR /app
 # 複製 package 文件
 COPY package*.json ./
 
-# 安裝依賴
-RUN npm ci --only=production
+# 安裝所有依賴（包括 devDependencies）
+RUN npm ci
 
-# 複製應用程式碼
-COPY . .
+# 複製應用程式碼（僅複製 Strapi 需要的檔案）
+COPY src ./src
+COPY config ./config
+COPY database ./database
+COPY public ./public
 
-# 建置 Strapi
-RUN npm run build
+# 複製必要的配置檔案
+COPY .env* ./
+COPY favicon.png ./
+
+# 設置生產環境
+ENV NODE_ENV=production
 
 # 暴露端口
 EXPOSE 1337
 
-# 啟動命令
-CMD ["npm", "start"] 
+# 直接啟動，跳過構建步驟
+CMD ["npm", "run", "develop"] 
