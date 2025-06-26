@@ -1,24 +1,17 @@
 [build]
-# 設置正確的根目錄為 my-project
-workingDirectory = "my-project"
-# 使用 Railway 原生 Node.js 構建
-command = "npm ci --silent"
+# 部署 Next.js 前端應用
+command = "npm ci && npm run build"
 
 [deploy]
-workingDirectory = "my-project"
-# 直接啟動 develop 模式避免構建問題
-startCommand = "npm run develop"
+# 啟動 Next.js 生產服務器
+startCommand = "npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 
 [env]
 NODE_ENV = "production"
-PORT = "1337"
-HOST = "0.0.0.0"
+PORT = "3000"
 
+# Next.js 環境變數
 [variables]
-DATABASE_CLIENT = "postgres"
-
-# 明確指定為 Node.js 專案
-[build.env]
-NODE_VERSION = "20" 
+NEXT_PUBLIC_API_URL = "https://api.example.com" 
