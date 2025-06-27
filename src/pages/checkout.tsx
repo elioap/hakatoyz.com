@@ -78,24 +78,77 @@ const CheckoutPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  // 處理表單提交
-  const handleSubmit = (e: React.FormEvent) => {
+  // 處理表單提交 - 創建訂單並跳轉到支付頁面
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (validateForm()) {
-      setIsSubmitting(true);
-      
-      // 模擬提交過程
-      setTimeout(() => {
-        setIsSubmitting(false);
-        router.push('/order-confirmation');
-      }, 1500);
-    } else {
+    if (!validateForm()) {
       // 滾動到第一個錯誤
       const firstError = document.querySelector('.error-message');
       if (firstError) {
         firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
+    try {
+      // 創建訂單數據
+      const orderData = {
+        // 客戶信息
+        customer: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+        },
+        // 收貨地址
+        shipping: {
+          address: formData.address,
+          city: formData.city,
+          zipCode: formData.zipCode,
+          country: formData.country,
+        },
+        // 訂單項目
+        items: cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          total: item.price * item.quantity,
+        })),
+        // 費用明細
+        pricing: {
+          subtotal: totalPrice,
+          shipping: shippingFee,
+          tax: taxFee,
+          total: orderTotal,
+        },
+        // 支付方式
+        paymentMethod: formData.paymentMethod,
+        // 訂單狀態
+        status: 'pending_payment',
+        createdAt: new Date().toISOString(),
+      };
+      
+      // 將訂單數據儲存到 sessionStorage，以便支付頁面使用
+      sessionStorage.setItem('pendingOrder', JSON.stringify(orderData));
+      
+      // 根據支付方式跳轉到對應的支付頁面
+      if (formData.paymentMethod === 'credit-card') {
+        router.push('/payment/stripe');
+      } else if (formData.paymentMethod === 'paypal') {
+        router.push('/payment/paypal');
+      } else {
+        // 其他支付方式暫時跳轉到支付選擇頁面
+        router.push('/payment');
+      }
+      
+    } catch (error) {
+      console.error('創建訂單失敗:', error);
+      alert(isEnglish ? 'Failed to create order. Please try again.' : '創建訂單失敗，請重試。');
+      setIsSubmitting(false);
     }
   };
   
@@ -122,11 +175,10 @@ const CheckoutPage: React.FC = () => {
     shipping: isEnglish ? 'Shipping' : '運費',
     tax: isEnglish ? 'Tax' : '稅費',
     total: isEnglish ? 'Total' : '總計',
-    placeOrder: isEnglish ? 'Place Order' : '提交訂單',
+    submitOrder: isEnglish ? 'Submit Order & Proceed to Payment' : '提交訂單並前往付款',
     emptyCart: isEnglish ? 'Your cart is empty' : '您的購物車是空的',
     backToShop: isEnglish ? 'Back to Shop' : '返回商店',
-    submitting: isEnglish ? 'Submitting...' : '提交中...',
-    processingPayment: isEnglish ? 'Processing Payment...' : '處理付款中...',
+    submitting: isEnglish ? 'Creating Order...' : '正在創建訂單...',
     required: isEnglish ? 'Required' : '必填',
   };
   
@@ -329,7 +381,7 @@ const CheckoutPage: React.FC = () => {
                   </div>
                 </div>
                 
-                {/* 付款方式 */}
+                {/* 付款方式選擇 */}
                 <div className="checkout-block">
                   <h2>{t.paymentMethod}</h2>
                   <div className="payment-methods">
@@ -437,6 +489,7 @@ const CheckoutPage: React.FC = () => {
                     </div>
                   </div>
                   
+                  {/* 提交訂單按鈕 */}
                   <button 
                     type="submit" 
                     className={`btn-primary checkout-btn ${isSubmitting ? 'submitting' : ''}`}
@@ -445,22 +498,13 @@ const CheckoutPage: React.FC = () => {
                     {isSubmitting ? (
                       <>
                         <i className="fas fa-spinner fa-spin"></i>
-                        {t.processingPayment}
+                        {t.submitting}
                       </>
                     ) : (
-                      t.placeOrder
+                      <>
+                        {t.submitOrder}
+                      </>
                     )}
-                  </button>
-                </div>
-
-                {/* 行動裝置版的購物車總覽 */}
-                <div className="mobile-cart-summary">
-                  <button 
-                    type="submit" 
-                    className={`btn-primary checkout-btn ${isSubmitting ? 'submitting' : ''}`}
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? t.processingPayment : t.placeOrder} - ¥{orderTotal.toLocaleString()}
                   </button>
                 </div>
               </div>
@@ -468,8 +512,7 @@ const CheckoutPage: React.FC = () => {
           </form>
         </div>
       </section>
-
-      {/* 響應式樣式 */}
+      
       <style jsx>{`
         .checkout-section {
           padding: 2rem 0;
@@ -551,41 +594,52 @@ const CheckoutPage: React.FC = () => {
         
         .payment-methods {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1rem;
+          grid-template-columns: 1fr 1fr;
+          gap: 15px;
+          margin-bottom: 20px;
         }
         
         .payment-method {
-          background-color: rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 5px;
-          padding: 0.75rem;
           display: flex;
           align-items: center;
+          padding: 15px;
+          border: 2px solid rgba(255, 255, 255, 0.1);
+          border-radius: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
         }
         
         .payment-method:hover {
-          border-color: rgba(255, 255, 255, 0.2);
+          border-color: #ff6b6b;
+          background-color: rgba(255, 107, 107, 0.1);
         }
         
-        .payment-method input {
-          margin-right: 0.5rem;
+        .payment-method input[type="radio"] {
+          margin-right: 10px;
           width: auto;
         }
         
         .payment-method label {
           display: flex;
           align-items: center;
-          margin-bottom: 0;
           cursor: pointer;
-          width: 100%;
+          font-weight: 500;
+          margin-bottom: 0;
         }
         
         .payment-method i {
-          margin-right: 0.5rem;
-          font-size: 1.1rem;
+          margin-right: 8px;
+          font-size: 18px;
+          width: 20px;
+        }
+        
+        .payment-method input[type="radio"]:checked + label {
+          color: #ff6b6b;
+        }
+        
+        .payment-method:has(input[type="radio"]:checked) {
+          border-color: #ff6b6b;
+          background-color: rgba(255, 107, 107, 0.1);
         }
         
         .order-items {
@@ -660,18 +714,6 @@ const CheckoutPage: React.FC = () => {
           cursor: not-allowed;
         }
         
-        .mobile-cart-summary {
-          display: none;
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background-color: var(--color-bg-dark);
-          padding: 1rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          z-index: 100;
-        }
-        
         /* 響應式設計 */
         @media (max-width: 768px) {
           .checkout-columns {
@@ -685,18 +727,6 @@ const CheckoutPage: React.FC = () => {
           
           .payment-methods {
             grid-template-columns: 1fr;
-          }
-          
-          .checkout-section {
-            padding-bottom: 5rem;
-          }
-          
-          .mobile-cart-summary {
-            display: block;
-          }
-          
-          .checkout-column:last-child .checkout-btn {
-            display: none;
           }
         }
       `}</style>
