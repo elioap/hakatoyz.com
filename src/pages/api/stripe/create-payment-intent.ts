@@ -9,7 +9,7 @@ if (!stripeSecretKey) {
 
 // 注意：這裡需要您的Stripe私鑰，請在環境變量中設置
 const stripe = new Stripe(stripeSecretKey || 'sk_test_...', {
-  apiVersion: '2024-06-20',
+  apiVersion: '2025-05-28.basil',
 });
 
 export default async function handler(

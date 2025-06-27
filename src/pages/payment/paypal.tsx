@@ -219,4 +219,4 @@ const PayPalPaymentPage: React.FC = () => {
   );
 };
 
- 
+export default PayPalPaymentPage;
