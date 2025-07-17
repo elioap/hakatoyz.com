@@ -1859,6 +1859,14 @@ body.zh-mode .breadcrumb {
   filter: grayscale(0%);
 }
 
+.brand-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
 /* 趋势产品 */
 .trending-products {
   padding: 100px 0;  /* 增加上下內邊距 */

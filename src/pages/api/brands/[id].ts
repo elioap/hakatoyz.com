@@ -1,39 +1,38 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Product } from '../../../data/products';
-import { DirectusService, convertDirectusToLocalProduct } from '../../../utils/directus';
+import { DirectusService, convertDirectusToLocalBrand } from '../../../utils/directus';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
   
   if (req.method === 'GET') {
     try {
-      const productId = parseInt(Array.isArray(id) ? id[0] : id || '0');
+      const brandId = parseInt(Array.isArray(id) ? id[0] : id || '0');
       
-      // 只從 Directus 獲取產品
-      const directusProduct = await DirectusService.getProductById(productId);
-      let product: Product | null = null;
+      // Only fetch from Directus
+      const directusBrand = await DirectusService.getBrandById(brandId);
+      let brand: any = null;
       
-      if (directusProduct) {
-        product = convertDirectusToLocalProduct(directusProduct);
-        console.log(`Found product ${productId} in Directus`);
+      if (directusBrand) {
+        brand = convertDirectusToLocalBrand(directusBrand);
+        console.log(`Found brand ${brandId} in Directus`);
       } else {
-        console.log(`Product ${productId} not found in Directus`);
+        console.log(`Brand ${brandId} not found in Directus`);
       }
       
-      if (!product) {
+      if (!brand) {
         return res.status(404).json({
           success: false,
-          message: 'Product not found'
+          message: 'Brand not found'
         });
       }
       
       res.status(200).json({
         success: true,
-        data: product,
+        data: brand,
         source: 'directus'
       });
     } catch (error) {
-      console.error('API Error:', error);
+      console.error('Brand API Error:', error);
       res.status(500).json({
         success: false,
         message: 'Internal server error',

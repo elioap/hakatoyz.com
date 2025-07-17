@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,8 +10,35 @@ const HomePage: React.FC = () => {
   const { locale } = router;
   const { addToCart } = useCart();
   
+  // 品牌狀態管理
+  const [featuredBrands, setFeaturedBrands] = useState<any[]>([]);
+  const [brandsLoading, setBrandsLoading] = useState(true);
+  
   // 判斷當前語言
   const isEnglish = locale === 'en';
+  
+  // 獲取特色品牌數據
+  useEffect(() => {
+    const fetchFeaturedBrands = async () => {
+      try {
+        setBrandsLoading(true);
+        const response = await fetch('/api/brands?featured=true');
+        const data = await response.json();
+        
+        if (data.success) {
+          setFeaturedBrands(data.data);
+        } else {
+          console.warn('Failed to fetch featured brands from API');
+        }
+      } catch (error) {
+        console.error('Error fetching featured brands:', error);
+      } finally {
+        setBrandsLoading(false);
+      }
+    };
+
+    fetchFeaturedBrands();
+  }, []);
   
   // 根據當前語言選擇內容
   const t = {
@@ -231,135 +258,103 @@ const HomePage: React.FC = () => {
         </div>
         <div className="brands-marquee">
           <div className="marquee-content">
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/arise-health.png" alt="Arise Health" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/ot.png" alt="OT" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/hot-topic.png" alt="Hot Topic" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/ebay.png" alt="eBay" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/boxlunch.png" alt="BoxLunch" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/toogther.png" alt="Toogther" />
-              </div>
-            </div>
+            {brandsLoading ? (
+              // 加載中的佔位符
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={`loading-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-purple-500"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              featuredBrands.slice(0, 6).map((brand, index) => (
+                <div key={`brand-${brand.id}-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    {brand.logo ? (
+                      <img src={brand.logo} alt={brand.name} />
+                    ) : (
+                      <span className="brand-text">{brand.name}</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
           <div className="marquee-content" aria-hidden="true">
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/arise-health.png" alt="Arise Health" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/ot.png" alt="OT" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/hot-topic.png" alt="Hot Topic" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/ebay.png" alt="eBay" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/boxlunch.png" alt="BoxLunch" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/toogther.png" alt="Toogther" />
-              </div>
-            </div>
+            {brandsLoading ? (
+              // 加載中的佔位符
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={`loading-dup-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-purple-500"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              featuredBrands.slice(0, 6).map((brand, index) => (
+                <div key={`brand-dup-${brand.id}-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    {brand.logo ? (
+                      <img src={brand.logo} alt={brand.name} />
+                    ) : (
+                      <span className="brand-text">{brand.name}</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
         
         <div className="brands-marquee reverse">
           <div className="marquee-content">
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/supreme.png" alt="Supreme" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/nike.png" alt="Nike" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/adidas.png" alt="Adidas" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/kaws.png" alt="KAWS" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/bearbrick.png" alt="BE@RBRICK" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/funko.png" alt="Funko" />
-              </div>
-            </div>
+            {brandsLoading ? (
+              // 加載中的佔位符
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={`loading-reverse-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-purple-500"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              featuredBrands.slice(6, 12).map((brand, index) => (
+                <div key={`brand-reverse-${brand.id}-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    {brand.logo ? (
+                      <img src={brand.logo} alt={brand.name} />
+                    ) : (
+                      <span className="brand-text">{brand.name}</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
           <div className="marquee-content" aria-hidden="true">
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/supreme.png" alt="Supreme" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/nike.png" alt="Nike" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/adidas.png" alt="Adidas" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/kaws.png" alt="KAWS" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/bearbrick.png" alt="BE@RBRICK" />
-              </div>
-            </div>
-            <div className="marquee-item">
-              <div className="brand-logo">
-                <img src="/images/brands/funko.png" alt="Funko" />
-              </div>
-            </div>
+            {brandsLoading ? (
+              // 加載中的佔位符
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={`loading-reverse-dup-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-purple-500"></div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              featuredBrands.slice(6, 12).map((brand, index) => (
+                <div key={`brand-reverse-dup-${brand.id}-${index}`} className="marquee-item">
+                  <div className="brand-logo">
+                    {brand.logo ? (
+                      <img src={brand.logo} alt={brand.name} />
+                    ) : (
+                      <span className="brand-text">{brand.name}</span>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </section>

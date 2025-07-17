@@ -147,39 +147,51 @@ export function IconCloud({ images }: IconCloudProps) {
 }
 
 export function BrandsIconCloud() {
-  // 熱門代購品牌名稱
-  const brands = [
-    "Supreme",
-    "Nike",
-    "Adidas",
-    "KAWS",
-    "Off-White",
-    "Apple",
-    "Yeezy",
-    "Jordan",
-    "PlayStation",
-    "Xbox",
-    "BAPE",
-    "Palace",
-    "Stussy",
-    "New Balance",
-    "UNIQLO",
-    "Lego",
-    "Nintendo",
-    "Funko",
-    "Champion",
-    "Puma",
-    "Converse",
-    "Vans",
-    "Disney",
-    "Marvel",
-    "Pokémon",
-    "Chrome Hearts",
-    "Louis Vuitton",
-    "Gucci",
-    "Balenciaga",
-    "Fear of God"
-  ];
+  const [brands, setBrands] = React.useState<string[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  // 從 Directus API 獲取品牌數據
+  React.useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/brands');
+        const data = await response.json();
+        
+        if (data.success) {
+          // 提取品牌名稱用於3D雲顯示
+          const brandNames = data.data.map((brand: any) => brand.name);
+          setBrands(brandNames);
+        } else {
+          // 如果API失敗，使用靜態數據作為後備
+          console.warn('Failed to fetch brands from API, using fallback');
+          setBrands([
+            "Supreme", "Nike", "Adidas", "KAWS", "Off-White", "Apple",
+            "Yeezy", "Jordan", "PlayStation", "Xbox", "BAPE", "Palace"
+          ]);
+        }
+      } catch (error) {
+        console.error('Error fetching brands:', error);
+        // 錯誤時使用靜態數據作為後備
+        setBrands([
+          "Supreme", "Nike", "Adidas", "KAWS", "Off-White", "Apple",
+          "Yeezy", "Jordan", "PlayStation", "Xbox", "BAPE", "Palace"
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="relative flex h-full w-full items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-purple-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex h-full w-full items-center justify-center">
