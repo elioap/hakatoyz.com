@@ -2,13 +2,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { products } from '../../data/products';
 import { DirectusService, convertLocalToDirectusProduct } from '../../utils/directus';
 
+type MigrationResult = {
+  id: number;
+  name: string;
+  directus_id?: number;
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const results = {
+      const results: { success: MigrationResult[]; error: any[] } = {
         success: [],
-        failed: [],
-        total: products.length
+        error: [],
       };
 
       console.log(`Starting migration of ${products.length} products to Directus...`);
@@ -29,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
             console.log(`✅ Migrated product: ${product.name.en} (ID: ${product.id} -> Directus ID: ${createdProduct.id})`);
           } else {
-            results.failed.push({
+            results.error.push({
               id: product.id,
               name: product.name.en,
               error: 'Failed to create in Directus'
@@ -37,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(`❌ Failed to migrate product: ${product.name.en} (ID: ${product.id})`);
           }
         } catch (error) {
-          results.failed.push({
+          results.error.push({
             id: product.id,
             name: product.name.en,
             error: error instanceof Error ? error.message : 'Unknown error'
@@ -46,15 +51,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
 
-      console.log(`Migration completed: ${results.success.length} successful, ${results.failed.length} failed`);
+      console.log(`Migration completed: ${results.success.length} successful, ${results.error.length} failed`);
 
       res.status(200).json({
         success: true,
         message: 'Migration completed',
         results: {
           successful: results.success.length,
-          failed: results.failed.length,
-          total: results.total,
+          failed: results.error.length,
+          total: products.length,
           details: results
         }
       });
