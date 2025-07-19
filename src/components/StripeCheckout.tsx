@@ -128,7 +128,7 @@ const StripeCheckout: React.FC<StripeCheckoutProps> = ({
       <div className="payment-amount">
         <div className="amount-row">
           <span>{t.total}:</span>
-          <span className="amount">¥{orderData.pricing.total.toLocaleString()}</span>
+          <span className="amount">${orderData.pricing.total.toLocaleString()}</span>
         </div>
       </div>
 
@@ -172,7 +172,7 @@ const StripeCheckout: React.FC<StripeCheckoutProps> = ({
           ) : (
             <>
               <i className="fas fa-lock"></i>
-              {t.payNow} - ¥{orderData.pricing.total.toLocaleString()}
+              {t.payNow} - ${orderData.pricing.total.toLocaleString()}
             </>
           )}
         </button>

@@ -121,7 +121,7 @@ export default function HomeFeaturedProducts() {
                       {product.name[lang]}
                     </Link>
                   </h3>
-                  <p className="product-price">¥{product.price.toLocaleString()}</p>
+                  <p className="product-price">${product.price.toLocaleString()}</p>
                   <Link 
                     href={`/product/${product.id}`} 
                     className="btn-secondary view-detail"

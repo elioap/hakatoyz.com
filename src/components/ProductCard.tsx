@@ -117,7 +117,7 @@ export default function ProductCard({ id, name, price, image, category = '未分
             <h3 className="product-title">{name}</h3>
           </Link>
           <p className="product-price">
-            <span className="currency">¥</span>
+            <span className="currency">$</span>
             <span className="amount">{price.toLocaleString()}</span>
           </p>
         </div>

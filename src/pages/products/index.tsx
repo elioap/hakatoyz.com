@@ -125,11 +125,11 @@ export default function Products() {
     nameAZ: isEnglish ? "Name: A-Z" : "名稱：A-Z",
     newest: isEnglish ? "Newest" : "最新",
     // 價格範圍
-    under100: isEnglish ? "Under ¥100" : "¥100以下",
-    range100200: "¥100 - ¥200",
-    range200500: "¥200 - ¥500",
-    range5001000: "¥500 - ¥1000",
-    over1000: isEnglish ? "Over ¥1000" : "¥1000以上"
+    under100: isEnglish ? "Under $100" : "$100以下",
+    range100200: "$100 - $200",
+    range200500: "$200 - $500",
+    range5001000: "$500 - $1000",
+    over1000: isEnglish ? "Over $1000" : "$1000以上"
   };
   
   const sortOptions = [

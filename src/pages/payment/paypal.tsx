@@ -150,7 +150,7 @@ const PayPalPaymentPage: React.FC = () => {
                         <span className="item-name">{item.name}</span>
                         <span className="item-quantity">x{item.quantity}</span>
                       </div>
-                      <div className="item-price">¥{item.total.toLocaleString()}</div>
+                      <div className="item-price">${item.total.toLocaleString()}</div>
                     </div>
                   ))}
                 </div>
@@ -158,7 +158,7 @@ const PayPalPaymentPage: React.FC = () => {
                 <div className="order-totals">
                   <div className="total-row final-total">
                     <span>{t.total}</span>
-                    <span>¥{orderData.pricing.total.toLocaleString()}</span>
+                    <span>${orderData.pricing.total.toLocaleString()}</span>
                   </div>
                 </div>
               </div>

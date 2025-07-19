@@ -136,7 +136,7 @@ const PaymentPage: React.FC = () => {
               <div className="order-total">
                 <div className="total-row">
                   <span>{t.total}</span>
-                  <span>¥{orderData.pricing.total.toLocaleString()}</span>
+                  <span>${orderData.pricing.total.toLocaleString()}</span>
                 </div>
               </div>
 

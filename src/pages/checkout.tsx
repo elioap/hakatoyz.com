@@ -463,7 +463,7 @@ const CheckoutPage: React.FC = () => {
                             </span>
                           </div>
                           <div className="order-item-price">
-                            <span>¥{(item.price * item.quantity).toLocaleString()}</span>
+                            <span>${(item.price * item.quantity).toLocaleString()}</span>
                           </div>
                         </div>
                       ))}
@@ -473,19 +473,19 @@ const CheckoutPage: React.FC = () => {
                   <div className="order-totals">
                     <div className="order-total-row">
                       <span>{t.subtotal}</span>
-                      <span>¥{totalPrice.toLocaleString()}</span>
+                      <span>${totalPrice.toLocaleString()}</span>
                     </div>
                     <div className="order-total-row">
                       <span>{t.shipping}</span>
-                      <span>¥{shippingFee.toLocaleString()}</span>
+                      <span>${shippingFee.toLocaleString()}</span>
                     </div>
                     <div className="order-total-row">
                       <span>{t.tax}</span>
-                      <span>¥{taxFee.toLocaleString()}</span>
+                      <span>${taxFee.toLocaleString()}</span>
                     </div>
                     <div className="order-total-row final-total">
                       <span>{t.total}</span>
-                      <span>¥{orderTotal.toLocaleString()}</span>
+                      <span>${orderTotal.toLocaleString()}</span>
                     </div>
                   </div>
                   

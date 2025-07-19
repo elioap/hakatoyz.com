@@ -101,7 +101,7 @@ const CartPage: React.FC = () => {
                           <div className="item-header">
                             <h3>{item.name}</h3>
                             <div className="item-price mobile-only">
-                              <span className="currency">¥</span>
+                              <span className="currency">$</span>
                               <span className="amount">{item.price.toLocaleString()}</span>
                             </div>
                           </div>
@@ -152,7 +152,7 @@ const CartPage: React.FC = () => {
                           </div>
                         </div>
                         <div className="item-price desktop-only">
-                          <span className="currency">¥</span>
+                          <span className="currency">$</span>
                           <span className="amount">{(item.price * item.quantity).toLocaleString()}</span>
                         </div>
                       </div>
@@ -165,19 +165,19 @@ const CartPage: React.FC = () => {
                   <h2 className="section-title">{t.orderSummary}</h2>
                   <div className="summary-row">
                     <span>{t.subtotal}</span>
-                    <span>¥{totalPrice.toLocaleString()}</span>
+                    <span>${totalPrice.toLocaleString()}</span>
                   </div>
                   <div className="summary-row">
                     <span>{t.shipping}</span>
-                    <span>¥{shippingFee.toLocaleString()}</span>
+                    <span>${shippingFee.toLocaleString()}</span>
                   </div>
                   <div className="summary-row">
                     <span>{t.tax}</span>
-                    <span>¥{taxFee.toLocaleString()}</span>
+                    <span>${taxFee.toLocaleString()}</span>
                   </div>
                   <div className="summary-row total">
                     <span>{t.total}</span>
-                    <span>¥{orderTotal.toLocaleString()}</span>
+                    <span>${orderTotal.toLocaleString()}</span>
                   </div>
                   <div className="promo-code">
                     <h3>{t.promoCode}</h3>

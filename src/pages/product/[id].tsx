@@ -231,12 +231,12 @@ export default function ProductDetail() {
               
               <div className="price-section">
                 <div className="price-main">
-                  <span className="currency">¥</span>
+                  <span className="currency">$</span>
                   <span className="amount">{product.price.toLocaleString()}</span>
                 </div>
                 {product.originalPrice && product.originalPrice > product.price && (
                   <div className="price-original">
-                    <span className="currency">¥</span>
+                    <span className="currency">$</span>
                     <span className="amount">{product.originalPrice.toLocaleString()}</span>
                   </div>
                 )}
