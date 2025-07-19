@@ -11,7 +11,10 @@ type MigrationResult = {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const results: { success: MigrationResult[]; error: any[] } = {
+      const results: {
+        success: { id: number; name: string; directus_id: number }[];
+        error: any[];
+      } = {
         success: [],
         error: [],
       };
@@ -26,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           // Create product in Directus
           const createdProduct = await DirectusService.createProduct(directusProductData);
           
-          if (createdProduct) {
+          if (createdProduct && createdProduct.id && typeof createdProduct.id === 'number') {
             results.success.push({
               id: product.id,
               name: product.name.en,
@@ -37,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             results.error.push({
               id: product.id,
               name: product.name.en,
-              error: 'Failed to create in Directus'
+              error: 'Failed to create in Directus or missing ID'
             });
             console.log(`❌ Failed to migrate product: ${product.name.en} (ID: ${product.id})`);
           }
