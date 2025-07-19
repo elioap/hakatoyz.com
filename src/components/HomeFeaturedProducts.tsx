@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { getAllProducts, getHotProducts } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Product } from '@/data/products';
 
 export default function HomeFeaturedProducts() {
   const router = useRouter();
@@ -11,13 +11,45 @@ export default function HomeFeaturedProducts() {
   const lang = isEnglish ? 'en' : 'zh';
   const { addToCart } = useCart();
   
-  // 獲取熱門商品(取前6個)
-  const featuredProducts = getHotProducts().length >= 6 
-    ? getHotProducts().slice(0, 6) 
-    : getAllProducts().slice(0, 6);
-    
-  // 狀態跟踪哪些商品正在添加到購物車
+  // 狀態管理
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [addingToCart, setAddingToCart] = useState<Record<number, boolean>>({});
+  
+  // 從 API 獲取特色產品
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+        
+        // 嘗試獲取熱門產品
+        let url = '/api/products?tag=hot&limit=6';
+        let response = await fetch(url);
+        let data = await response.json();
+        
+        if (data.success && data.data.length >= 6) {
+          setFeaturedProducts(data.data.slice(0, 6));
+        } else {
+          // 如果熱門產品不足，獲取所有產品
+          url = '/api/products?limit=6';
+          response = await fetch(url);
+          data = await response.json();
+          
+          if (data.success) {
+            setFeaturedProducts(data.data.slice(0, 6));
+          } else {
+            console.warn('Failed to fetch featured products from API');
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching featured products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
   
   // 處理添加到購物車
   const handleAddToCart = (productId: number) => {
@@ -64,54 +96,60 @@ export default function HomeFeaturedProducts() {
           <p>{isEnglish ? 'Hand-picked popular items for you' : '精選最受歡迎的代購商品'}</p>
         </div>
         <div className="products-grid">
-          {featuredProducts.map(product => (
-            <div className="product-card" key={product.id} data-product-id={`p${product.id}`}>
-              <div className="product-image">
-                <Link href={`/product/${product.id}`}>
-                  <img src={product.image} alt={product.name[lang]} />
-                  {product.tag && (
-                    <div className={`product-tag ${product.tag}`}>
-                      {product.tag === 'hot' && (isEnglish ? 'Hot' : '熱賣')}
-                      {product.tag === 'new' && (isEnglish ? 'New' : '新品')}
-                      {product.tag === 'limited' && (isEnglish ? 'Limited' : '限量')}
-                    </div>
-                  )}
-                </Link>
-              </div>
-              <div className="product-info">
-                <h3>
+          {loading ? (
+            <p>{isEnglish ? 'Loading featured products...' : '正在加載特色商品...'}</p>
+          ) : featuredProducts.length === 0 ? (
+            <p>{isEnglish ? 'No featured products found.' : '未找到特色商品。'}</p>
+          ) : (
+            featuredProducts.map(product => (
+              <div className="product-card" key={product.id} data-product-id={`p${product.id}`}>
+                <div className="product-image">
                   <Link href={`/product/${product.id}`}>
-                    {product.name[lang]}
+                    <img src={product.image} alt={product.name[lang]} />
+                    {product.tag && (
+                      <div className={`product-tag ${product.tag}`}>
+                        {product.tag === 'hot' && (isEnglish ? 'Hot' : '熱賣')}
+                        {product.tag === 'new' && (isEnglish ? 'New' : '新品')}
+                        {product.tag === 'limited' && (isEnglish ? 'Limited' : '限量')}
+                      </div>
+                    )}
                   </Link>
-                </h3>
-                <p className="product-price">¥{product.price.toLocaleString()}</p>
-                <Link 
-                  href={`/product/${product.id}`} 
-                  className="btn-secondary view-detail"
-                >
-                  {isEnglish ? 'View Details' : '查看詳情'}
-                </Link>
-                <button 
-                  className={`btn-add-cart ${addingToCart[product.id] ? 'adding' : ''}`}
-                  data-product-id={`p${product.id}`}
-                  onClick={() => handleAddToCart(product.id)}
-                  disabled={addingToCart[product.id]}
-                >
-                  {addingToCart[product.id] ? (
-                    <>
-                      <i className="fas fa-spinner fa-spin" />
-                      <span>{isEnglish ? 'Adding...' : '添加中...'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <i className="fas fa-shopping-cart" />
-                      <span>{isEnglish ? 'Add to Cart' : '加入購物車'}</span>
-                    </>
-                  )}
-                </button>
+                </div>
+                <div className="product-info">
+                  <h3>
+                    <Link href={`/product/${product.id}`}>
+                      {product.name[lang]}
+                    </Link>
+                  </h3>
+                  <p className="product-price">¥{product.price.toLocaleString()}</p>
+                  <Link 
+                    href={`/product/${product.id}`} 
+                    className="btn-secondary view-detail"
+                  >
+                    {isEnglish ? 'View Details' : '查看詳情'}
+                  </Link>
+                  <button 
+                    className={`btn-add-cart ${addingToCart[product.id] ? 'adding' : ''}`}
+                    data-product-id={`p${product.id}`}
+                    onClick={() => handleAddToCart(product.id)}
+                    disabled={addingToCart[product.id]}
+                  >
+                    {addingToCart[product.id] ? (
+                      <>
+                        <i className="fas fa-spinner fa-spin" />
+                        <span>{isEnglish ? 'Adding...' : '添加中...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <i className="fas fa-shopping-cart" />
+                        <span>{isEnglish ? 'Add to Cart' : '加入購物車'}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
         <div className="view-more">
           <Link href="/products" className="btn-secondary">

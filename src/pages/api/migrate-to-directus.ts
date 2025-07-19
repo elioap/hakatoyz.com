@@ -2,21 +2,17 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { products } from '../../data/products';
 import { DirectusService, convertLocalToDirectusProduct } from '../../utils/directus';
 
-type MigrationResult = {
+interface MigrationResult {
   id: number;
   name: string;
-  directus_id?: number;
-};
+  directus_id: number | undefined;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     try {
-      const results: {
-        success: { id: number; name: string; directus_id: number }[];
-        error: any[];
-      } = {
+      const results: { success: MigrationResult[] } = {
         success: [],
-        error: [],
       };
 
       console.log(`Starting migration of ${products.length} products to Directus...`);
@@ -37,31 +33,34 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
             console.log(`✅ Migrated product: ${product.name.en} (ID: ${product.id} -> Directus ID: ${createdProduct.id})`);
           } else {
-            results.error.push({
+            results.success.push({
               id: product.id,
               name: product.name.en,
-              error: 'Failed to create in Directus or missing ID'
+              directus_id: undefined
             });
             console.log(`❌ Failed to migrate product: ${product.name.en} (ID: ${product.id})`);
           }
         } catch (error) {
-          results.error.push({
+          results.success.push({
             id: product.id,
             name: product.name.en,
-            error: error instanceof Error ? error.message : 'Unknown error'
+            directus_id: undefined
           });
           console.log(`❌ Error migrating product: ${product.name.en} (ID: ${product.id}) - ${error}`);
         }
       }
 
-      console.log(`Migration completed: ${results.success.length} successful, ${results.error.length} failed`);
+      const successful = results.success.filter(item => item.directus_id !== undefined);
+      const failed = results.success.filter(item => item.directus_id === undefined);
+
+      console.log(`Migration completed: ${successful.length} successful, ${failed.length} failed`);
 
       res.status(200).json({
         success: true,
         message: 'Migration completed',
         results: {
-          successful: results.success.length,
-          failed: results.error.length,
+          successful: successful.length,
+          failed: failed.length,
           total: products.length,
           details: results
         }

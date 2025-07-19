@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import ProductCard from '@/components/ProductCard';
 import { useRouter } from 'next/router';
-import { getAllProducts } from '@/data/products';
+import { Product } from '@/data/products';
 
 export default function Products() {
   const router = useRouter();
@@ -11,22 +11,60 @@ export default function Products() {
   const langKey = isEnglish ? 'en' : 'zh';
   
   // 狀態管理
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState('featured');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   
-  // 從數據源獲取商品
-  const allProducts = getAllProducts();
+  // 從 API 獲取產品數據
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        let url = '/api/products';
+        const params = new URLSearchParams();
+        
+        if (selectedCategory !== 'all') {
+          params.append('category', selectedCategory);
+        }
+        params.append('locale', langKey);
+        
+        if (params.toString()) {
+          url += '?' + params.toString();
+        }
+        
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        if (data.success) {
+          setProducts(data.data || []);
+        } else {
+          setError(isEnglish ? 'Failed to load products' : '載入產品失敗');
+        }
+      } catch (err) {
+        console.error('獲取產品失敗:', err);
+        setError(isEnglish ? 'Failed to load products' : '載入產品失敗');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchProducts();
+  }, [selectedCategory, langKey, isEnglish]);
   
   // 獲取唯一分類列表
   const categories = useMemo(() => {
-    return [...new Set(allProducts.map(product => product.category[langKey]))];
-  }, [allProducts, langKey]);
+    return [...new Set(products.map(product => product.category[langKey]))];
+  }, [products, langKey]);
   
   // 篩選和排序商品
   const filteredProducts = useMemo(() => {
-    let filtered = [...allProducts];
+    let filtered = [...products];
     
     // 分類篩選
     if (selectedCategory !== 'all') {
@@ -65,7 +103,7 @@ export default function Products() {
     }
     
     return filtered;
-  }, [allProducts, selectedCategory, priceRange, sortBy, langKey]);
+  }, [products, selectedCategory, priceRange, sortBy, langKey]);
   
   // 國際化文本
   const t = {
@@ -264,7 +302,26 @@ export default function Products() {
         {/* 商品網格 */}
         <div className="products-grid-section">
           <div className="container">
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+              <div className="loading-state">
+                <p>{isEnglish ? 'Loading products...' : '載入商品中...'}</p>
+                <div className="spinner"></div>
+              </div>
+            ) : error ? (
+              <div className="error-state">
+                <p>{error}</p>
+                <button 
+                  className="btn-primary"
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setPriceRange('all');
+                    setSortBy('featured');
+                  }}
+                >
+                  {t.clearFilters}
+                </button>
+              </div>
+            ) : filteredProducts.length > 0 ? (
               <div className="products-grid">
                 {filteredProducts.map((product) => (
                   <ProductCard
